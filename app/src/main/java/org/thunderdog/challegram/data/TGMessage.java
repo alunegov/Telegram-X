@@ -2478,7 +2478,8 @@ public abstract class TGMessage implements InvalidateContentProvider, TdlibDeleg
     if (hasHeader() && needChannelSign()) {
       int left = useBubbles() ? getActualRightContentEdge() - xBubblePadding - xBubblePaddingSmall - Screen.dp(16f) : pChannelSignLeft;
       int top = useBubbles() ? topContentEdge + xBubbleNameTop - Screen.dp(12f) : pChannelSignTop;
-      if (x >= left && x < (left + Screen.dp(16f)) && y >= top && y < (top + Screen.dp(16f))) {
+      int delta = Screen.dp(16f);
+      if (x >= (left - delta) && x < (left + Screen.dp(16f) + delta) && y >= (top - delta) && y < (top + Screen.dp(16f) + delta)) {
         return CLICK_TYPE_CHANNEL_SIGN;
       }
     }
@@ -4261,6 +4262,7 @@ public abstract class TGMessage implements InvalidateContentProvider, TdlibDeleg
   }
 
   private boolean needChannelSign () {
+    // ref getAdministratorSign
     return !isSponsored()
       && administrator == null
       && !sender.isAnonymousGroupAdmin()
